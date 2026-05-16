@@ -1,132 +1,85 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { fadeUp, staggerContainer } from '@/lib/motion';
+import { fadeUp } from '@/lib/motion';
 
-const skills = [
-  {
-    category: 'Tecnologia',
-    items: [
-      { name: 'Familiaridade com Computadores', level: 85 },
-      { name: 'Uso de Sistemas Operacionais', level: 80 },
-      { name: 'Ferramentas de Produtividade', level: 78 },
-      { name: 'Internet e Pesquisa Técnica', level: 90 },
-    ],
-  },
-  {
-    category: 'Soft Skills',
-    items: [
-      { name: 'Aprendizado Rápido', level: 95 },
-      { name: 'Organização', level: 82 },
-      { name: 'Comunicação', level: 78 },
-      { name: 'Comprometimento', level: 92 },
-    ],
-  },
+const navLinks = [
+  { label: 'Sobre', href: '#sobre' },
+  { label: 'Habilidades', href: '#habilidades' },
+  { label: 'Diferenciais', href: '#diferenciais' },
+  { label: 'Objetivos', href: '#objetivos' },
+  { label: 'Contato', href: '#contato' },
 ];
 
-const tags = [
-  'Adaptabilidade',
-  'Tecnologia',
-  'Automação Comercial',
-  'Sistemas',
-  'Organização',
-  'Atenção ao detalhe',
-  'Suporte técnico',
-  'Produtividade',
-  'Aprendizado contínuo',
-  'Trabalho em equipe',
-  'Pontualidade',
-  'Proatividade',
-];
-
-export default function Habilidades() {
+export default function Footer() {
   const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const isInView = useInView(ref, { once: true, margin: '-40px' });
+
+  const handleNav = (href: string) => {
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <section id="habilidades" ref={ref} className="relative bg-black border-t border-white/[0.06]">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 py-28 md:py-36">
+    <footer
+      ref={ref}
+      className="relative bg-black border-t border-white/[0.06]"
+    >
+      <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 md:py-20">
         <motion.div
-          variants={staggerContainer}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
+          variants={{ visible: { transition: { staggerChildren: 0.08 } }, hidden: {} }}
         >
-          {/* Section header */}
-          <motion.div variants={fadeUp} className="flex items-center gap-4 mb-16">
-            <span className="text-xs tracking-[0.3em] uppercase text-white/30 font-medium">02</span>
-            <div className="w-12 h-px bg-white/15" />
-            <span className="text-xs tracking-[0.25em] uppercase text-white/30 font-medium">Habilidades</span>
-          </motion.div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-            {/* Left: title */}
+          {/* Top row */}
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 mb-16 pb-16 border-b border-white/[0.06]">
+            {/* Logo block */}
             <motion.div variants={fadeUp}>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight tracking-tight mb-8">
-                O que eu
-                <br />
-                <span className="text-white/30">trago para</span>
-                <br />
-                a equipe.
-              </h2>
-              <p className="text-white/45 text-base leading-relaxed font-light max-w-sm">
-                Habilidades técnicas e comportamentais que contribuem desde o primeiro dia — com espaço para evoluir continuamente.
-              </p>
-
-              {/* Tags */}
-              <div className="flex flex-wrap gap-2 mt-10">
-                {tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-3 py-1.5 border border-white/[0.08] text-[10px] tracking-[0.1em] uppercase text-white/40 hover:text-white/70 hover:border-white/20 transition-all duration-200"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Right: skill bars */}
-            <motion.div variants={fadeUp} className="space-y-10">
-              {skills.map((group) => (
-                <div key={group.category}>
-                  <h3 className="text-[10px] tracking-[0.3em] uppercase text-white/30 font-medium mb-6">
-                    {group.category}
-                  </h3>
-                  <div className="space-y-5">
-                    {group.items.map((skill) => (
-                      <SkillBar key={skill.name} skill={skill} isInView={isInView} />
-                    ))}
-                  </div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 border border-white/25 flex items-center justify-center">
+                  <span className="text-xs font-bold tracking-widest text-white">LB</span>
                 </div>
-              ))}
+                <span className="text-sm font-semibold tracking-[0.12em] text-white uppercase">Lucas Barcela</span>
+              </div>
+              <p className="text-xs text-white/30 font-light max-w-xs leading-relaxed">
+                Candidato a vaga em tecnologia e automação comercial. Soledade, RS.
+              </p>
             </motion.div>
+
+            {/* Navigation */}
+            <motion.nav variants={fadeUp} className="flex flex-wrap gap-6">
+              {navLinks.map((link) => (
+                <button
+                  key={link.href}
+                  onClick={() => handleNav(link.href)}
+                  className="text-[11px] tracking-[0.15em] uppercase text-white/35 hover:text-white/70 transition-colors duration-300 font-medium"
+                >
+                  {link.label}
+                </button>
+              ))}
+            </motion.nav>
           </div>
+
+          {/* Bottom row */}
+          <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-6">
+              <span className="text-[11px] text-white/20 tracking-[0.1em]">
+                &copy; {new Date().getFullYear()} Lucas Da Silva Barcela
+              </span>
+              <span className="hidden sm:block w-px h-3 bg-white/10" />
+              <span className="hidden sm:block text-[11px] text-white/15 tracking-[0.08em]">
+                Soledade, RS — Brasil
+              </span>
+            </div>
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="text-[11px] tracking-[0.15em] uppercase text-white/25 hover:text-white/60 transition-colors duration-300 flex items-center gap-2 group"
+            >
+              Topo
+              <div className="w-4 h-px bg-white/20 group-hover:w-8 transition-all duration-300" />
+            </button>
+          </motion.div>
         </motion.div>
       </div>
-    </section>
-  );
-}
-
-function SkillBar({
-  skill,
-  isInView,
-}: {
-  skill: { name: string; level: number };
-  isInView: boolean;
-}) {
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-sm text-white/60 font-light">{skill.name}</span>
-        <span className="text-xs text-white/25 font-medium">{skill.level}%</span>
-      </div>
-      <div className="h-px bg-white/[0.08] relative overflow-hidden">
-        <motion.div
-          className="absolute top-0 left-0 h-full bg-white/50"
-          initial={{ width: 0 }}
-          animate={isInView ? { width: `${skill.level}%` } : { width: 0 }}
-          transition={{ duration: 1.2, ease: 'easeOut', delay: 0.3 }}
-        />
-      </div>
-    </div>
+    </footer>
   );
 }
